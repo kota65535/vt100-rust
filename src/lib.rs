@@ -58,7 +58,6 @@ mod perform;
 mod row;
 mod screen;
 mod term;
-#[cfg(feature = "tui-term")]
 mod tui_term;
 
 pub use attrs::Color;
