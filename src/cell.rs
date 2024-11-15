@@ -13,6 +13,7 @@ pub struct Cell {
     contents: [u8; CONTENT_BYTES],
     len: u8,
     attrs: crate::attrs::Attrs,
+    selected: bool,
 }
 const _: () = assert!(std::mem::size_of::<Cell>() == 32);
 
@@ -35,6 +36,7 @@ impl Cell {
             contents: Default::default(),
             len: 0,
             attrs: crate::attrs::Attrs::default(),
+            selected: false,
         }
     }
 
@@ -76,6 +78,15 @@ impl Cell {
     pub(crate) fn clear(&mut self, attrs: crate::attrs::Attrs) {
         self.len = 0;
         self.attrs = attrs;
+        self.selected = false;
+    }
+
+    pub(crate) fn selected(&self) -> bool {
+        self.selected
+    }
+
+    pub(crate) fn select(&mut self, selected: bool) {
+        self.selected = selected;
     }
 
     /// Returns the text contents of the cell.
@@ -174,6 +185,6 @@ impl Cell {
     /// attribute.
     #[must_use]
     pub fn inverse(&self) -> bool {
-        self.attrs.inverse()
+        self.attrs.inverse() || self.selected
     }
 }

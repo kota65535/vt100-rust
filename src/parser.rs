@@ -75,6 +75,13 @@ impl<CB: crate::callbacks::Callbacks> Parser<CB> {
     pub fn callbacks_mut(&mut self) -> &mut CB {
         &mut self.screen.callbacks
     }
+
+    /// Returns a reference to an `EntireScreen` object containing the
+    /// terminal state where all contents including scrollback and displayed.
+    #[must_use]
+    pub fn entire_screen(&self) -> crate::EntireScreen {
+        crate::EntireScreen::new(self.screen())
+    }
 }
 
 impl Default for Parser {
