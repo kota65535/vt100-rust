@@ -29,8 +29,18 @@ impl Row {
         self.wrapped = false;
     }
 
+    pub fn is_blank(&self) -> bool {
+        self.cells().all(|cell| !cell.has_contents())
+    }
+
     fn cells(&self) -> impl Iterator<Item = &crate::Cell> {
         self.cells.iter()
+    }
+
+    pub(crate) fn cells_mut(
+        &mut self,
+    ) -> impl Iterator<Item = &mut crate::Cell> {
+        self.cells.iter_mut()
     }
 
     pub fn get(&self, col: u16) -> Option<&crate::Cell> {
