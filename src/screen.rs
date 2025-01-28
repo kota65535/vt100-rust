@@ -139,6 +139,16 @@ impl Screen {
         self.grid().scrollback()
     }
 
+    #[must_use]
+    pub fn scrollback_len(&self) -> usize {
+        self.grid().scrollback_len()
+    }
+    
+    #[must_use]
+    pub fn current_scrollback_len(&self) -> usize {
+        self.grid().current_scrollback_len()
+    }
+
     /// Returns the text contents of the terminal.
     ///
     /// This will not include any formatting information, and will be in plain
@@ -795,7 +805,7 @@ impl Screen {
         self.attrs.inverse()
     }
 
-    pub(crate) fn grid(&self) -> &crate::grid::Grid {
+    pub fn grid(&self) -> &crate::grid::Grid {
         if self.mode(MODE_ALTERNATE_SCREEN) {
             &self.alternate_grid
         } else {
@@ -803,7 +813,7 @@ impl Screen {
         }
     }
 
-    fn grid_mut(&mut self) -> &mut crate::grid::Grid {
+    pub fn grid_mut(&mut self) -> &mut crate::grid::Grid {
         if self.mode(MODE_ALTERNATE_SCREEN) {
             &mut self.alternate_grid
         } else {
