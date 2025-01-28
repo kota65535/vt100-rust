@@ -50,7 +50,7 @@ mod attrs;
 mod callbacks;
 mod cell;
 mod entire_screen;
-mod grid;
+pub mod grid;
 mod parser;
 mod perform;
 mod row;

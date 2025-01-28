@@ -234,6 +234,10 @@ impl Grid {
     pub fn scrollback_len(&self) -> usize {
         self.scrollback_len
     }
+    
+    pub fn current_scrollback_len(&self) -> usize {
+        self.scrollback.len()
+    }
 
     pub fn scrollback(&self) -> usize {
         self.scrollback_offset

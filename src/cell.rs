@@ -7,7 +7,7 @@ const CODEPOINTS_IN_CELL: usize = 6;
 pub struct Cell {
     contents: [char; CODEPOINTS_IN_CELL],
     len: u8,
-    attrs: crate::attrs::Attrs,
+    pub attrs: crate::attrs::Attrs,
     selected: bool,
 }
 
@@ -131,7 +131,7 @@ impl Cell {
         }
     }
 
-    pub(crate) fn attrs(&self) -> &crate::attrs::Attrs {
+    pub fn attrs(&self) -> &crate::attrs::Attrs {
         &self.attrs
     }
 
