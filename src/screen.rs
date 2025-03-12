@@ -139,6 +139,16 @@ impl Screen {
         self.grid().scrollback()
     }
 
+    #[must_use]
+    pub fn scrollback_len(&self) -> usize {
+        self.grid().scrollback_len()
+    }
+    
+    #[must_use]
+    pub fn current_scrollback_len(&self) -> usize {
+        self.grid().current_scrollback_len()
+    }
+
     /// Returns the text contents of the terminal.
     ///
     /// This will not include any formatting information, and will be in plain
