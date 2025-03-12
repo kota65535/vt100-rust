@@ -131,8 +131,12 @@ impl Cell {
         }
     }
 
-    pub(crate) fn attrs(&self) -> &crate::attrs::Attrs {
+    pub fn attrs(&self) -> &crate::attrs::Attrs {
         &self.attrs
+    }
+    
+    pub fn attrs_mut(&mut self) -> &mut crate::attrs::Attrs {
+        &mut self.attrs
     }
 
     /// Returns the foreground color of the cell.
