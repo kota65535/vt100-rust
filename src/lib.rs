@@ -60,6 +60,7 @@ mod screen;
 mod term;
 mod tui_term;
 
+pub use grid::Grid;
 pub use attrs::Color;
 pub use callbacks::Callbacks;
 pub use cell::Cell;
