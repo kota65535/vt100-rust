@@ -49,9 +49,13 @@ impl<'a> EntireScreen<'a> {
         let (rows, _) = self.size();
         let default = crate::attrs::Attrs::default();
         grid.all_rows().take(rows).enumerate().map(move |(i, row)| {
-            // number of rows in a grid is stored in a u16 (see Size), so
-            // visible_rows can never return enough rows to overflow here
-            let i = i.try_into().unwrap();
+            // For rows within u16 range, use the actual index.
+            // For rows beyond u16::MAX (large scrollback), use a fixed
+            // value of 1 to avoid panic. This is safe because each row
+            // is rendered independently (prev_pos/prev_attrs are None),
+            // so the row index only affects intra-row cursor positioning.
+            // Using 1 avoids underflow when wrapping computes row - 1.
+            let i: u16 = i.try_into().unwrap_or(1);
             let mut contents = vec![];
             // We don't need final cursor position as long as CRLF is used and not just LF
             let (_pos, attrs) = row.write_contents_formatted(

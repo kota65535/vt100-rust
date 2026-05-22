@@ -116,3 +116,27 @@ fn cell_attrs() {
 
     assert!(parser.screen().cell(0, 4).unwrap().italic());
 }
+
+/// Regression test: entire_screen().rows_formatted() must not panic
+/// when scrollback exceeds u16::MAX rows.
+#[test]
+fn entire_screen_large_scrollback_no_panic() {
+    // Use a small terminal (3 rows, 10 cols) with scrollback > u16::MAX
+    let scrollback_len = 70_000; // > u16::MAX (65535)
+    let mut parser = vt100::Parser::new(3, 10, scrollback_len);
+
+    // Generate enough lines to fill the scrollback beyond u16::MAX
+    // Each "line\r\n" pushes the previous top row into scrollback
+    let line = b"ABCDEFGHIJ\r\n"; // 10 visible chars + CRLF
+    for _ in 0..scrollback_len {
+        parser.process(line);
+    }
+
+    let screen = parser.entire_screen();
+    let (rows, cols) = screen.size();
+    assert!(rows > 65535, "should have more than u16::MAX rows");
+
+    // This previously panicked with TryFromIntError in try_into().unwrap()
+    let count = screen.rows_formatted(0, cols).count();
+    assert_eq!(count, rows);
+}
