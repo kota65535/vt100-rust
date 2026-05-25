@@ -339,7 +339,7 @@ impl Grid {
                         } else if row_index == start.row {
                             (start.col, cols)
                         } else if row_index == end.row {
-                            (0, end.col)
+                            (0, end.col + 1)
                         } else {
                             (0, cols)
                         };
